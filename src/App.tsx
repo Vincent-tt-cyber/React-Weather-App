@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 // http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}
 
 function App() {
-  const [value, setValue] = useState("Moscow");
+  const [value, setValue] = useState("Москва");
   const [weatherData, setWeatherData] = useState([]);
   const [dayText, setDayText] = useState("");
   const [conditionText, setConditionText] = useState("");
+  // const [bacground, setBackground] = useState("");
 
   const API_KEY = "120a1e738d234ea4b9b152427240310";
 
@@ -20,7 +21,7 @@ function App() {
     e.preventDefault();
 
     const { data } = await axios.get(
-      `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${value}`
+      `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${value}`
     );
 
     console.log(data);
@@ -55,13 +56,28 @@ function App() {
         });
       }
     } catch (error) {
-      console.error("Не удалось получить russian text", error);
+      console.error("Не удалось получить данные", error);
     }
   };
 
+  // const getBackground = async () => {
+  //   switch (weatherData.current) {
+  //     case value:
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+
   React.useEffect(() => {
     getRussianText();
-  }, [weatherData, conditionText]);
+
+    // if (weatherData.length == 0) {
+    //   setValue("London");
+    //   getDataWeather({ preventDefault: () => {} } as React.FormEvent);
+    // }
+  }, [weatherData, value]);
 
   return (
     <>
@@ -90,21 +106,35 @@ function App() {
                   <div key={key} className="weather-card">
                     <div className="weather-card__header">
                       <img
-                        src={el.current.condition.icon}
+                        src={`https:${el.current.condition.icon}`}
                         alt={el.current.condition.text}
                       />
                       <h2>
                         {el.location.name} <span>({dayText})</span>
                       </h2>
                     </div>
-                    <h1>{el.current.temp_c}°C</h1>
                     <p>{conditionText}</p>
+                    <h1>{el.current.temp_c}°C</h1>
+                    <p>Ветер: {el.current.wind_kph} км/ч</p>
+                    <p>Влажность: {el.current.humidity}%</p>
                   </div>
                 ))}
               </div>
             </>
           ) : (
-            <div>Не удалось получить данные</div>
+            <div>
+              <div key={key} className="weather-card">
+                <div className="weather-card__header">
+                  {/* <img
+                        src={el.current.condition.icon}
+                        alt={el.current.condition.text}
+                      /> */}
+                  <h2>---</h2>
+                </div>
+                <h1>0°C</h1>
+                <p>---</p>
+              </div>
+            </div>
           )}
         </div>
       </div>
