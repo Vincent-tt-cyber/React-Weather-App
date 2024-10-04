@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 function App() {
   const [value, setValue] = useState("Москва");
   const [weatherData, setWeatherData] = useState([]);
+  const [forecast, setForecast] = useState([]);
   const [dayText, setDayText] = useState("");
   const [conditionText, setConditionText] = useState("");
   // const [bacground, setBackground] = useState("");
@@ -28,6 +29,7 @@ function App() {
 
     if (data) {
       setWeatherData([data]);
+      setForecast(data.forecast.forecastday[0].hour);
       setValue("");
 
       if (data.current.is_day === 1) {
@@ -110,7 +112,8 @@ function App() {
                         alt={el.current.condition.text}
                       />
                       <h2>
-                        {el.location.name} <span>({dayText})</span>
+                        {el.location.name} {el.location.region}{" "}
+                        <span>({dayText})</span>
                       </h2>
                     </div>
                     <p>{conditionText}</p>
@@ -137,6 +140,26 @@ function App() {
             </div>
           )}
         </div>
+        {forecast.length > 0 && (
+          <div>
+            <h1>Погода на 24 часа:</h1>
+            <div>
+              {forecast.map((item, key) => (
+                <div key={key} className="weather-card-forecast">
+                  <p>{item.time}</p>
+                  <img
+                    src={`https:${item.condition.icon}`}
+                    alt={item.condition.text}
+                  />
+                  <p>{item.temp_c}°C</p>
+                  {/* <p>Ветер: {item.wind_kph} км/ч</p> */}
+                  {/* <p>Влажность: {item.humidity}%</p> */}
+                  {/* <p>{item.condition.text}</p> */}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
