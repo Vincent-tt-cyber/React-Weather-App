@@ -22,7 +22,7 @@ function App() {
     e.preventDefault();
 
     const { data } = await axios.get(
-      `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${value}`
+      `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${value}&days=7`
     );
 
     console.log(data);
@@ -120,6 +120,8 @@ function App() {
                     <h1>{el.current.temp_c}°C</h1>
                     <p>Ветер: {el.current.wind_kph} км/ч</p>
                     <p>Влажность: {el.current.humidity}%</p>
+                    {/* <p>Максимальная температура: {el.current.maxtemp_c}°C</p>
+                    <p>Минимальная температура: {el.current.mintemp_c}°C</p> */}
                   </div>
                 ))}
               </div>
@@ -143,15 +145,15 @@ function App() {
         {forecast.length > 0 && (
           <div>
             <h1>Погода на 24 часа:</h1>
-            <div>
+            <div className="forecast">
               {forecast.map((item, key) => (
                 <div key={key} className="weather-card-forecast">
-                  <p>{item.time}</p>
+                  <p className="weather-card-forecast__time">{item.time}</p>
                   <img
                     src={`https:${item.condition.icon}`}
                     alt={item.condition.text}
                   />
-                  <p>{item.temp_c}°C</p>
+                  <h3>{item.temp_c}°C</h3>
                   {/* <p>Ветер: {item.wind_kph} км/ч</p> */}
                   {/* <p>Влажность: {item.humidity}%</p> */}
                   {/* <p>{item.condition.text}</p> */}

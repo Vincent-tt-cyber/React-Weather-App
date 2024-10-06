@@ -28,7 +28,7 @@ form {
 
 .input {
   width: 100%;
-  background-color: #f5f5f5;
+  background-color: #c5c5c5;
   border-radius: 10px;
   padding: 10px 20px;
   border: 2px solid transparent;
@@ -59,13 +59,31 @@ form {
   }
 }
 
+.forecast {
+  overflow: auto;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
 .weather-card {
-  background-color: #f5f5f5;
+  background-color: #c5c5c5;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
   &-forecast {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #c5c5c5;
+    padding: 20px;
+    border-radius: 20px;
+    &__time {
+      font-size: 14px;
+      font-weight: 600;
+    }
   }
   &__header {
     display: flex;
