@@ -9,7 +9,7 @@ function App() {
   const [forecast, setForecast] = useState([]);
   const [dayText, setDayText] = useState("");
   const [conditionText, setConditionText] = useState("");
-  // const [bacground, setBackground] = useState("");
+  const [days7, setDays7] = useState([]);
 
   const API_KEY = "120a1e738d234ea4b9b152427240310";
 
@@ -25,11 +25,12 @@ function App() {
       `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${value}&days=7`
     );
 
-    console.log(data);
+    // console.log("data", data);
 
     if (data) {
       setWeatherData([data]);
       setForecast(data.forecast.forecastday[0].hour);
+      setDays7(data.forecast.forecastday);
       setValue("");
 
       if (data.current.is_day === 1) {
@@ -48,7 +49,7 @@ function App() {
       if (data) {
         data.map((el) => {
           if (el.code == weatherData[0].current.condition.code) {
-            console.log("el code", el.languages);
+            // console.log("el code", el.languages);
             const data = el.languages;
             const result = data.find((el) => el.lang_name == "Russian");
             // console.log("result", result['day_text']);
@@ -148,7 +149,9 @@ function App() {
             <div className="forecast">
               {forecast.map((item, key) => (
                 <div key={key} className="weather-card-forecast">
-                  <p className="weather-card-forecast__time">{item.time}</p>
+                  <p className="weather-card-forecast__time">
+                    {new Date(item.time).toLocaleTimeString("ru-RU")}
+                  </p>
                   <img
                     src={`https:${item.condition.icon}`}
                     alt={item.condition.text}
@@ -157,6 +160,27 @@ function App() {
                   {/* <p>Ветер: {item.wind_kph} км/ч</p> */}
                   {/* <p>Влажность: {item.humidity}%</p> */}
                   {/* <p>{item.condition.text}</p> */}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {days7.length > 0 && (
+          <div>
+            <h1>Погода на 7 дней:</h1>
+            <div className="forecast">
+              {days7.map((item, key) => (
+                <div key={key} className="weather-card-forecast">
+                  <p className="weather-card-forecast__date">{ new Date(item.date).toLocaleDateString("ru-RU")}</p>
+                  <img
+                    src={`https:${item.day.condition.icon}`}
+                    alt={item.day.condition.text}
+                  />
+                  <h3> Максимальная температура: {item.day.maxtemp_c}°C</h3>
+                  <h3> Минимальная температура: {item.day.mintemp_c}°C</h3>
+                  {/* <p>Ветер: {item.wind_kph} км/ч</p> */}
+                  {/* <p>Влажность: {item.humidity}%</p> */}
+                  {/* <p>{item.day.condition.text}</p> */}
                 </div>
               ))}
             </div>
