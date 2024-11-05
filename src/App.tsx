@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 // https://www.weatherapi.com/docs/conditions.json - языки
 // http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}
 
+const API_KEY = import.meta.env.VITE_API_KEY;
+
 function App() {
   const [value, setValue] = useState("Москва");
   const [weatherData, setWeatherData] = useState([]);
@@ -10,9 +12,6 @@ function App() {
   const [dayText, setDayText] = useState("");
   const [conditionText, setConditionText] = useState("");
   const [days7, setDays7] = useState([]);
-
-  const API_KEY = "120a1e738d234ea4b9b152427240310";
-
   const searchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setValue(e.target.value);
@@ -171,7 +170,9 @@ function App() {
             <div className="forecast">
               {days7.map((item, key) => (
                 <div key={key} className="weather-card-forecast">
-                  <p className="weather-card-forecast__date">{ new Date(item.date).toLocaleDateString("ru-RU")}</p>
+                  <p className="weather-card-forecast__date">
+                    {new Date(item.date).toLocaleDateString("ru-RU")}
+                  </p>
                   <img
                     src={`https:${item.day.condition.icon}`}
                     alt={item.day.condition.text}
