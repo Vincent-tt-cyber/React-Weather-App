@@ -21,7 +21,7 @@ function App() {
     e.preventDefault();
 
     const { data } = await axios.get(
-      `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${value}&days=7`,
+      `http://api.weatherapi.com/v1/forecast.json?`,
       {
         params: {
           days: 7,
