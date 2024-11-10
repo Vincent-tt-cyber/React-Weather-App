@@ -24,9 +24,9 @@ function App() {
       `http://api.weatherapi.com/v1/forecast.json?`,
       {
         params: {
-          days: 7,
-          q: value,
           key: API_KEY,
+          q: value,
+          days: 7,
         },
       }
     );
